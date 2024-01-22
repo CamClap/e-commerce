@@ -18,15 +18,6 @@ class ProduitType extends AbstractType
             ->add('designation')
             ->add('prixUnitaire')
             ->add('quantiteStock')
-            ->add('commandes', EntityType::class, [
-                'class' => Commande::class,
-'choice_label' => 'id',
-'multiple' => true,
-            ])
-            ->add('vendeur', EntityType::class, [
-                'class' => Vendeur::class,
-'choice_label' => 'id',
-            ])
         ;
     }
 
