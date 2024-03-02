@@ -13,7 +13,7 @@ class PanierController extends AbstractController
 {
     public function __construct(private RequestStack $requestStack, private EntityManagerInterface $entityManager)
     {
-        
+        $this->requestStack=$requestStack;
     }
     #[Route('/panier', name: 'app_panier')]
     public function index(Panier $panier): Response
@@ -23,13 +23,23 @@ class PanierController extends AbstractController
             'panier' => $panier->showAll(),
         ]);
     }
+    
 
+    #[Route('/panier/add-and-see/{id}', name: 'app_add_see_panier')]
     #[Route('/panier/add/{id}', name: 'app_add_panier')]
     public function addProduct(Panier $panier, $id): Response
     {
         $panier->addProduct($id);
-        return $this->redirectToRoute('app_panier');
-        // return $this->redirectToRoute('app_produit_index');
+        $req= $this->requestStack->getCurrentRequest();
+        $currentRoute=$req->attributes->get('_route');
+
+        if($currentRoute === 'app_add_see_panier'){
+            return $this->redirectToRoute('app_panier');
+        }
+       else{
+ return $this->redirectToRoute('app_produit_index');
+       }
+       
     }
     #[Route('/panier/delete/{id}', name: 'app_decrease_panier')]
     public function decreaseProduct(Panier $panier, $id): Response
