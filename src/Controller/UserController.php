@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -18,6 +19,9 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+        if($this->getUser() instanceof Client){
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
@@ -47,6 +51,12 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        // est ce que le user connecté = user.id
+        // user en cours == client?
+        if($this->getUser() != $user && $this->getUser() instanceof Client){
+            return $this->redirectToRoute('app_home');
+        }
+       
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -55,6 +65,9 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user,UserPasswordHasherInterface $passwordHasher ,EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser() != $user && $this->getUser() instanceof Client){
+            return $this->redirectToRoute('app_home');
+        } 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

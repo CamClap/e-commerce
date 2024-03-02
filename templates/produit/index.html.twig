@@ -1,40 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit index{% endblock %}
+{% block title %}Produit index
+{% endblock %}
 
 {% block body %}
-    <h1>Produit index</h1>
+	<h1>Produit index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Designation</th>
-                <th>PrixUnitaire</th>
-                <th>QuantiteStock</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.designation }}</td>
-                <td>{{ produit.prixUnitaire }}</td>
-                <td>{{ produit.quantiteStock }}</td>
-                <td>
-                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">Ajouter</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Designation</th>
+				<th>PrixUnitaire</th>
+				<th>QuantiteStock</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for produit in produits %}
+				<tr>
+					<td>{{ produit.id }}</td>
+					<td>{{ produit.designation }}</td>
+					<td>{{ produit.prixUnitaire }}</td>
+					<td>{{ produit.quantiteStock }}</td>
+					<td>
+						<a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
+						<a href="{{ path('app_add_panier', {'id': produit.id}) }}">Ajouter au panier</a>
+						{% if is_granted('ROLE_VENDEUR') %}
+							<a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+						{% endif %}
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% if is_granted('ROLE_VENDEUR') %}
+		<a href="{{ path('app_produit_new') }}">Create new</a>
+	{% endif %}
+
 {% endblock %}

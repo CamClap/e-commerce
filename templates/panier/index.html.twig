@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PanierController!
+{% endblock %}
+
+{% block body %}
+	<h1>Bienvenue sur votre panier
+	</h1>
+	{% if panier|length > 0 %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Produit</th>
+					<th scope="col">Quantité</th>
+					<th scope="col">Prix</th>
+					<th scope="col">Total</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set total = null %}
+				{% for produit in panier %}
+					<tr>
+						<td>{{produit.produit.designation}}</td>
+						<td>
+							<a href="{{ path('app_decrease_panier', {'id': produit.produit.id}) }}"><img width="35" height="35" src="https://img.icons8.com/pastel-glyph/64/minus--v1.png" alt="minus--v1"/></a>
+							{{produit.quantite}}
+							<a href="{{ path('app_add_panier', {'id': produit.produit.id}) }}"><img width="35" height="35" src="https://img.icons8.com/ios/50/plus--v1.png" alt="plus--v1"/></a>
+						</td>
+						<td>{{produit.produit.prixUnitaire}}</td>
+						<td>{{(produit.produit.prixUnitaire * produit.quantite)}}</td>
+						<td>
+							<a href="{{ path('app_delete_product', {'id': produit.produit.id}) }}">Supprimer</a>
+						</td>
+					</tr>
+					{% set total = total + (produit.produit.prixUnitaire * produit.quantite) %}
+				{% endfor %}
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>{{total}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="{{ path('app_delete_panier') }}">Supprimer le panier</a>
+	{% else %}
+		<h2>Votre panier est vide, malheureusement...
+		</h2>
+	{% endif %}
+
+
+{% endblock %}

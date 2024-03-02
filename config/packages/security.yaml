@@ -39,7 +39,10 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/commande/*, roles: [ROLE_CLIENT] }
-        - { path: ^/*, roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/produit/edit/*, roles: [ROLE_VENDEUR] }
+        - { path: ^/produit/delete/*, roles: [ROLE_VENDEUR] }
+        - { path: ^/produit/new, roles: [ROLE_VENDEUR] }
+        # - { path: ^/*, roles: [IS_AUTHENTICATED_FULLY] }
 
 when@test:
     security:

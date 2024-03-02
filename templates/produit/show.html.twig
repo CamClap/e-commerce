@@ -1,34 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block title %}Produit
+{% endblock %}
 
 {% block body %}
-    <h1>Produit</h1>
+	<h1>Produit</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ produit.id }}</td>
-            </tr>
-            <tr>
-                <th>Designation</th>
-                <td>{{ produit.designation }}</td>
-            </tr>
-            <tr>
-                <th>PrixUnitaire</th>
-                <td>{{ produit.prixUnitaire }}</td>
-            </tr>
-            <tr>
-                <th>QuantiteStock</th>
-                <td>{{ produit.quantiteStock }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ produit.id }}</td>
+			</tr>
+			<tr>
+				<th>Designation</th>
+				<td>{{ produit.designation }}</td>
+			</tr>
+			<tr>
+				<th>PrixUnitaire</th>
+				<td>{{ produit.prixUnitaire }}</td>
+			</tr>
+			<tr>
+				<th>QuantiteStock</th>
+				<td>{{ produit.quantiteStock }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<a href="{{ path('app_add_panier', {'id': produit.id}) }}">Ajouter au panier</a>
+	<a href="{{ path('app_produit_index') }}">back to list</a>
 
-    <a href="{{ path('app_produit_index') }}">back to list</a>
+	{% if is_granted('ROLE_VENDEUR') %}
+		<a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+		{{ include('produit/_delete_form.html.twig') }}
+	{% endif %}
 
-    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
 
-    {{ include('produit/_delete_form.html.twig') }}
 {% endblock %}

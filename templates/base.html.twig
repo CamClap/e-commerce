@@ -15,10 +15,8 @@
         {% endblock %}
     </head>
     <body>
-    {% if app.user %}
-		Bonjour: {{app.user.prenom}}
-			{% include is_granted('ROLE_VENDEUR') ? 'shared/_menu_vendeur.twig' : 'shared/_menu_client.twig' ignore missing %}
-		{% endif %}
+
+        {% include 'shared/_menu.twig'  %}
         {% block body %}{% endblock %}
     </body>
 </html>

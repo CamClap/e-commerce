@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{path('app_home')}}">E-commerce</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{{path('app_produit_index')}}">Produits</a>
+				</li>
+			</ul>
+			<div class="">
+				{% if app.user %}
+					Bonjour:
+					{{app.user.prenom}}
+					<a href="{{ path('app_user_show', {'id': app.user.id})}}">Mon Compte</a>
+					<a href="{{ path('app_panier')}}">Mon Panier</a>
+					<a href="{{ path('app_logout')}}">Déconnexion</a>
+				{% else %}
+					<a href="{{ path('app_login')}}">Connexion</a>
+					<a href="{{ path('app_user_new')}}">Inscription</a>
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+</nav>
